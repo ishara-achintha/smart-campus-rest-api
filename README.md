@@ -1,8 +1,8 @@
 # Smart Campus REST API
 
 > **Student Name** – Ishara Achintha  
-> **UoW Number** – *[add]*  
-> **IIT Number** – *[add]*  
+> **UoW Number** – w2120611
+> **IIT Number** – 20232551
 
 ---
 
