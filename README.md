@@ -1,87 +1,132 @@
-# Achintha 20232551 - Smart Campus REST API
+# Smart Campus REST API
 
-This project is a JAX-RS RESTful API for a Smart Campus system. It manages rooms, sensors, and sensor readings using in-memory Java collections only.
+> **Student Name** – Ishara Achintha  
+> **UoW Number** – *[add]*  
+> **IIT Number** – *[add]*  
 
-## Technology Stack
-- Java 17
-- Maven
-- JAX-RS with Jersey
-- Grizzly embedded HTTP server
-- In-memory storage with `ConcurrentHashMap` and `ArrayList`
+---
 
-## Run the project in NetBeans
-1. Open the project in NetBeans.
-2. Wait until Maven dependencies finish loading.
-3. Open `Main.java`.
-4. Right click `Main.java`.
-5. Click **Run File**.
-6. The server starts on:
-   `http://localhost:9090/api/v1/`
+## Project Overview
 
-## Important Postman rule
-- `GET` requests do not use a body.
-- `POST` requests use JSON in the body.
-- Set header `Content-Type: application/json` for `POST` requests.
+This project implements a RESTful Smart Campus API using Java, JAX-RS (Jersey), and an embedded Grizzly server.
 
-## Main endpoints
-- `GET /api/v1`
-- `GET /api/v1/rooms`
-- `POST /api/v1/rooms`
-- `GET /api/v1/rooms/{roomId}`
-- `DELETE /api/v1/rooms/{roomId}`
-- `GET /api/v1/sensors`
-- `GET /api/v1/sensors?type=CO2`
-- `POST /api/v1/sensors`
-- `GET /api/v1/sensors/{sensorId}`
-- `GET /api/v1/sensors/{sensorId}/readings`
-- `POST /api/v1/sensors/{sensorId}/readings`
+The system manages:
 
-## Sample curl commands
-Create a room:
-```bash
-curl -X POST http://localhost:9090/api/v1/rooms \
-  -H "Content-Type: application/json" \
-  -d '{"id":"LAB-202","name":"AI Lab","capacity":40}'
-```
+- Rooms  
+- Sensors  
+- Sensor Readings  
 
-Get all rooms:
-```bash
-curl http://localhost:9090/api/v1/rooms
-```
+The implementation follows all coursework constraints:
 
-Create a sensor:
-```bash
-curl -X POST http://localhost:9090/api/v1/sensors \
-  -H "Content-Type: application/json" \
-  -d '{"id":"CO2-001","type":"CO2","status":"ACTIVE","currentValue":410.2,"roomId":"LAB-202"}'
-```
+- Uses JAX-RS only  
+- Uses embedded Grizzly server  
+- Uses in-memory data structures  
+- No database used  
+- No external frameworks  
 
-Filter sensors:
-```bash
-curl http://localhost:9090/api/v1/sensors?type=CO2
-```
+---
 
-Add a reading:
-```bash
-curl -X POST http://localhost:9090/api/v1/sensors/CO2-001/readings \
-  -H "Content-Type: application/json" \
-  -d '{"value":430.8}'
-```
+## System Architecture
 
-Get reading history:
-```bash
-curl http://localhost:9090/api/v1/sensors/CO2-001/readings
-```
+The API follows a layered architecture:
 
-## Expected validation and error handling
-- 409 Conflict when deleting a room that still has sensors.
-- 422 Unprocessable Entity when creating a sensor for a room that does not exist.
-- 403 Forbidden when posting readings to a sensor in `MAINTENANCE` state.
-- 400 Bad Request for invalid input.
-- 500 Internal Server Error for unexpected failures.
+- Resource Layer  
+- Service/Data Layer  
+- Model Layer  
 
+A Singleton DataStore is used to persist data across requests.
 
-## Important Note About the Base URL
+---
 
-This project runs with the Grizzly base URI set directly to `http://localhost:9090/api/v1/` in `Main.java`.
-If you change it back to `http://localhost:9090/`, your endpoints will return 404 in the browser and Postman.
+## JAX-RS Resource Lifecycle
+
+JAX-RS uses a request-scoped lifecycle.
+
+- A new resource instance is created per request  
+- Instance variables are not shared  
+
+A shared datastore is used to persist data across requests.
+
+---
+
+## HATEOAS Implementation
+
+The API includes basic hypermedia links in responses.
+
+Example:
+
+{
+  "id": "ROOM-001",
+  "name": "Lab 1",
+  "links": {
+    "self": "/api/v1/rooms/ROOM-001",
+    "sensors": "/api/v1/rooms/ROOM-001/sensors"
+  }
+}
+
+---
+
+## Base URL
+
+http://localhost:9090/api/v1
+
+---
+
+## API Features
+
+Rooms, Sensors, Sensor Readings with CRUD operations.
+
+---
+
+## Validation Rules
+
+Room, Sensor, and Reading validations implemented.
+
+---
+
+## Error Handling
+
+All errors return JSON format.
+
+---
+
+## Build and Run Instructions
+
+git clone https://github.com/ishara-achintha/smart-campus-rest-api.git
+cd smart-campus-rest-api
+mvn clean install
+mvn exec:java
+
+---
+
+## Testing
+
+Tested using Postman and curl.
+
+---
+
+## Technologies Used
+
+Java, Maven, JAX-RS, Grizzly
+
+---
+
+## Limitations
+
+- In-memory storage  
+- No persistence  
+- Limited concurrency  
+
+---
+
+## Future Improvements
+
+- Database integration  
+- Authentication  
+- Better concurrency handling  
+
+---
+
+## Conclusion
+
+This project demonstrates a RESTful API built with core Java technologies.
