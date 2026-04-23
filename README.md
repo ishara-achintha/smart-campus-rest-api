@@ -99,6 +99,48 @@ mvn exec:java
 
 ---
 
+## How to Clone and Run (Invigilator Guide)
+
+### Step 1: Install Requirements
+
+- Java 17  
+- Maven  
+- Git  
+
+Check:
+
+java -version  
+mvn -version  
+git --version  
+
+---
+
+### Step 2: Clone Repo
+
+git clone https://github.com/ishara-achintha/smart-campus-rest-api.git  
+
+---
+
+### Step 3: Open Project
+
+NetBeans → File → Open Project → select folder  
+
+OR
+
+cd smart-campus-rest-api  
+
+---
+
+### Step 4: Build
+
+mvn clean install  
+
+---
+
+### Step 5: Run
+
+mvn exec:java 
+
 ## Testing
 
 Tested using Postman and curl.
